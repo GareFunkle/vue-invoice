@@ -17,10 +17,15 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" >
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+main {
+  margin-top: 1rem;
+  margin-left: 1rem;
 }
 </style>
