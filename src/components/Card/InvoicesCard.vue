@@ -11,6 +11,9 @@
                 'status-pending': invoices.status === 'En attente'
             }">{{ invoices.status }}</p>
             <p class="invoice__amount margin">{{ invoices.totalAmount }} €</p>
+            <router-link class="invoice__card-btnEdit" :to="`/invoices/${invoices.id}/edit`">
+                <p>Éditer</p>
+            </router-link>
         </div>
 
     </main>

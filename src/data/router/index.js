@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Invoices from "../../views/Invoices.vue";
 import AddInvoices from "../../views/AddInvoices.vue";
+import EditInvoice from "../../components/Edit/EditInvoice.vue";
 
 const routes = [
   {
     path: "/",
     name: "Invoices",
     component: Invoices,
+  },
+  {
+    path: "/invoices/:invoiceId/edit",
+    name: "EditInvoice",
+    component: EditInvoice,
   },
   {
     path: "/add-invoices",
