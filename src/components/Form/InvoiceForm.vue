@@ -1,26 +1,28 @@
 <template>
-    <div class="invoice-form">
-        <h2>Nouvelle facture</h2>
+    <div class="invoice__form-wrap">
+        <h2 class="invoice__from-title">Nouvelle facture</h2>
         <form @submit.prevent="submitInvoice">
-            <div>
+            <div class="form__element">
                 <label for="clientName">Nom du client :</label>
                 <input type="text" id="clientName" v-model="invoice.clientName" required />
             </div>
-            <div>
+            <div class="form__element">
                 <label for="clientAdress">Adresse :</label>
                 <input type="text" id="clientAdress" v-model="invoice.clientAdress" required />
             </div>
-            <div>
+            <div class="form__element">
                 <label for="clientPostal">Code Postal :</label>
                 <input type="text" id="clientPostal" v-model="invoice.clientPostal" required />
             </div>
-            <div>
+            <div class="form__element">
                 <label for="titleInvoice">Descriptions De la facture :</label>
                 <input type="text" id="titleInvoice" v-model="invoice.titleInvoice" required />
             </div>
             <div v-for="(item, index) in invoice.items" :key="index">
                 <label :for="'description-' + index">Description :</label>
                 <input type="text" :id="'description-' + index" v-model="item.description" required />
+                <label :for="'quantity-' + index"> Quantité</label>
+                <input type="number" :id="'quantity-' + index" v-model="item.quantity" required>
                 <label :for="'amount-' + index">Montant :</label>
                 <input type="number" :id="'amount-' + index" v-model="item.amount" step="0.01" required />
                 <button type="button" @click="removeItem(index)" v-if="index > 0">
@@ -65,6 +67,7 @@ export default {
             items: [
                 {
                     description: "",
+                    quantity: "",
                     amount: 0,
                 },
             ],
@@ -78,6 +81,7 @@ export default {
         const addItem = () => {
             invoice.items.push({
                 description: "",
+                quantity: "",
                 amount: 0,
             });
         };
@@ -127,7 +131,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .invoice-form {
     max-width: 500px;
     margin: 0 auto;

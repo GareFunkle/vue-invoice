@@ -32,7 +32,7 @@ $animation-duration: 3s;
 }
 
 .menu__wrap {
-    background: #9683EC;
+    background: black;
 
     .menu {
         padding: 2rem 1rem;
@@ -48,17 +48,19 @@ $animation-duration: 3s;
                 .menu__item-btn {
                     display: inline-block;
                     padding: 10px 20px;
-                    color: #BA55D3;
+                    color: black;
                     border: none;
                     cursor: pointer;
                     text-decoration: none;
                     border-radius: calc(1rem / 2);
-                    transition: background 0.3s;
+                    transition: background 0.3s ease-in-out;
 
                     @include gradient-animation($color-start, $color-middle, $color-end, $animation-duration);
 
                     &:hover {
                         background-size: 100% 100%;
+                        filter: drop-shadow(0 0 4px red);
+                        transition: filter 0.3s ease-in-out;
                     }
                 }
             }
