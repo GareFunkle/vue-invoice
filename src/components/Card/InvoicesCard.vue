@@ -18,7 +18,7 @@
                 <router-link class="invoice__card-btn btn" :to="`/invoices/${invoices.id}/edit`">
                     <p>Éditer</p>
                 </router-link>
-                <p class="btn">Suprimer</p>
+                <p class="btn" @click="deleteInvoice()">Suprimer</p>
             </div>
         </div>
 
@@ -26,10 +26,25 @@
 </template>
 
 <script>
+
+import { doc, deleteDoc } from 'firebase/firestore'
+import { db } from '../../data/firebase/index'
 export default {
     name: "InvoicesCard",
     props: {
         invoices: Object
+    },
+    setup(props) {
+
+        const deleteInvoice = async () => {
+            await deleteDoc(doc(db, "invoices", props.invoices.id))
+            console.log("produits supprimer avec succes")
+        }
+
+        return {
+            deleteInvoice
+        }
+
     }
 
 }
