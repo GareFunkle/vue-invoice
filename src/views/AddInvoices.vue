@@ -1,6 +1,5 @@
 <template>
     <main>
-        <h1>Ajouter une facture</h1>
         <InvoiceForm />
     </main>
 </template>

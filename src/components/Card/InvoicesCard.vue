@@ -11,9 +11,15 @@
                 'status-pending': invoices.status === 'En attente'
             }">{{ invoices.status }}</p>
             <p class="invoice__amount margin">{{ invoices.totalAmount }} €</p>
-            <router-link class="invoice__card-btnEdit" :to="`/invoices/${invoices.id}/edit`">
-                <p>Éditer</p>
-            </router-link>
+            <div class="invoice__btn-wrap">
+                <router-link class="invoice__card-btn btn" :to="`/invoices/${invoices.id}/voir`">
+                    <p>Voir</p>
+                </router-link>
+                <router-link class="invoice__card-btn btn" :to="`/invoices/${invoices.id}/edit`">
+                    <p>Éditer</p>
+                </router-link>
+                <p class="btn">Suprimer</p>
+            </div>
         </div>
 
     </main>
@@ -37,6 +43,7 @@ export default {
     justify-content: center;
     padding: 1rem;
     border: 1px solid orange;
+    border-radius: calc(5rem / 3);
 
 
 
@@ -64,6 +71,25 @@ export default {
 
     .margin {
         padding: 0.5rem;
+    }
+
+    .invoice__btn-wrap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+
+        .btn {
+            margin: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .invoice__card-btn {
+            text-decoration: none;
+            color: black;
+        }
     }
 
 }

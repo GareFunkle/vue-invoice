@@ -1,6 +1,5 @@
 <template>
     <main>
-        <h1>Mes Facture</h1>
         <div class="invoices__wrap">
             <InvoicesCard v-for="(invoice, index) in invoices" :key="index" :invoices="invoice" />
         </div>
