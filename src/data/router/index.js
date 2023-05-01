@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Invoices from "../../views/Invoices.vue";
+import Home from "../../views/Home.vue";
+import AddEstimate from "../../views/AddEstimate.vue";
 import AddInvoices from "../../views/AddInvoices.vue";
 import EditInvoice from "../../components/Edit/EditInvoice.vue";
 import LookInvoice from "../../components/Screen/LookInvoice.vue";
@@ -7,8 +8,8 @@ import LookInvoice from "../../components/Screen/LookInvoice.vue";
 const routes = [
   {
     path: "/",
-    name: "Invoices",
-    component: Invoices,
+    name: "Home",
+    component: Home,
   },
   {
     path: "/invoices/:invoiceId/edit",
@@ -19,6 +20,11 @@ const routes = [
     path: "/invoices/:invoiceId/voir",
     name: "LookInvoice",
     component: LookInvoice,
+  },
+  {
+    path: "/add-estimate",
+    name: "AddEstimate",
+    component: AddEstimate,
   },
   {
     path: "/add-invoices",

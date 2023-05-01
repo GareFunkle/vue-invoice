@@ -2,9 +2,15 @@
     <div class="menu__wrap">
         <div class="menu">
             <ul class="menu__items">
-                <li class="menu__item"><a class="menu__item-btn" href="/">Mes facture</a></li>
-                <li class="menu__item"><a class="menu__item-btn" href="/add-invoices">Creer une facture</a></li>
-                <li class="menu__item"><a class="menu__item-btn" href="/is-waiting">En attente</a></li>
+
+                <li class="menu__item"><router-link class="menu__item-btn" to="/">Mes factures</router-link></li>
+                <li class="menu__item"><router-link class="menu__item-btn" to="/add-estimate">Creer un devis</router-link>
+                </li>
+
+                <li class="menu__item"><router-link class="menu__item-btn" to="/add-invoices">Creer une
+                        facture</router-link></li>
+
+                <!-- <li class="menu__item"><router-link class="menu__item-btn" to="/is-waiting">En attente</router-link></li> -->
             </ul>
         </div>
     </div>
