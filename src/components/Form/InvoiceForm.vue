@@ -102,12 +102,15 @@
   
 <script>
 import { ref, reactive, computed } from "vue";
+import { useRouter } from "vue-router";
 import { db, collection } from "../../data/firebase/index";
 import { addDoc } from "firebase/firestore";
 
 export default {
     name: "InvoiceForm",
     setup() {
+        const router = useRouter()
+
         const invoice = reactive({
             clientName: "",
             clientAdress: "",
@@ -159,6 +162,7 @@ export default {
                 console.error("Erreur lors de l'ajout de la facture:", error);
             }
             resetForm();
+            router.push("/")
         };
 
         const resetForm = () => {

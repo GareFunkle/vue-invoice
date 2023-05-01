@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in invoice.items" :key="index">
+                    <tr v-for="( item, index ) in  invoice.items " :key="index">
                         <td>
                             <input v-model="item.description" />
                         </td>
@@ -73,7 +73,7 @@
                 <p>{{ totalAmount }} € </p>
             </div>
 
-            <button type="button" @click="addItem">Ajouter un article</button>
+            <button type="button" @click="addItem()">Ajouter un article</button>
 
             <div class="invoice__status">
                 <label for="status">Statut :</label>
@@ -82,31 +82,32 @@
                     <option value="Payée">Payée</option>
                 </select>
             </div>
-
-            <button type="submit">Mettre à jour</button>
+            <CustomBtn text="Mettre à jour" type="submit" />
         </form>
-        <button type="button" @click="generatePDF">Télécharger la facture en PDF</button>
 
     </div>
 </template>
   
 <script>
 import { ref, computed } from "vue";
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { db } from "../../data/firebase/index";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import CustomBtn from "../Button/CustomBtn.vue";
 
 
 export default {
     name: "EditInvoice",
+    components: {
+        CustomBtn
+    },
     setup() {
         const route = useRoute();
+        const router = useRouter()
         const invoiceId = computed(() => {
             return route.params.invoiceId;
         });
         const invoice = ref({});
-
-
 
         const fetchInvoice = async () => {
             const invoiceRef = doc(db, "invoices", invoiceId.value);
@@ -130,7 +131,9 @@ export default {
             invoice.value.totalAmount = totalAmount.value; // Déplacez cette ligne ici
             const invoiceRef = doc(db, "invoices", invoiceId.value);
             await updateDoc(invoiceRef, invoice.value);
+            router.push("/")
             console.log("Facture mise à jour !");
+
         };
 
         const addItem = () => {
@@ -273,25 +276,20 @@ th {
 
 button {
     padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--color-2);
+    color: var(--color-3);
     border: none;
     cursor: pointer;
     border-radius: 4px;
+
+    &:hover {
+        background-color: var(--color-1);
+    }
 }
 
-button:hover {
-    background-color: #45a049;
-}
 
-button[type="submit"] {
-    background-color: #007BFF;
-    margin-top: 20px;
-}
 
-button[type="submit"]:hover {
-    background-color: #0069D9;
-}
+
 
 table {
     width: 100%;

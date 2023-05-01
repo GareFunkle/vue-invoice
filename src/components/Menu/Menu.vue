@@ -17,22 +17,8 @@ export default {
 </script>
 
 <style lang="scss">
-$color-start: #6EE7B7;
-$color-middle: #3BA9EE;
-$color-end: #DD1B16;
-$animation-duration: 3s;
-
-// Mixin pour créer un gradient animé
-@mixin gradient-animation($start, $middle, $end, $duration) {
-    background-size: 250% 100%;
-    background-image: linear-gradient(to right, $start, $middle, $end);
-    animation: gradient $duration infinite;
-    animation-direction: alternate;
-    animation-timing-function: linear;
-}
-
 .menu__wrap {
-    background: black;
+    background: var(--color-2);
 
     .menu {
         padding: 2rem 1rem;
@@ -48,19 +34,18 @@ $animation-duration: 3s;
                 .menu__item-btn {
                     display: inline-block;
                     padding: 10px 20px;
-                    color: black;
+                    color: var(--color-3);
                     border: none;
                     cursor: pointer;
                     text-decoration: none;
                     border-radius: calc(1rem / 2);
+                    background: var(--color-6);
                     transition: background 0.3s ease-in-out;
 
-                    @include gradient-animation($color-start, $color-middle, $color-end, $animation-duration);
+
 
                     &:hover {
-                        background-size: 100% 100%;
-                        filter: drop-shadow(0 0 4px red);
-                        transition: filter 0.3s ease-in-out;
+                        background: var(--color-5);
                     }
                 }
             }

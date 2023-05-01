@@ -59,18 +59,16 @@
         </div>
 
         <div class="invoice__text">
-            llllllllllllllllllll
+            Mode de paiement : chèque ou virement bancaire n° FR76 1679 8000 0100 0024 3347 804
+
         </div>
 
 
         <div class="invoice__text">
-            llllllllllllllllllll
+            TVA non applicable, art. 293 B du CGI
         </div>
 
 
-        <div class="invoice__text">
-            llllllllllllllllllll
-        </div>
 
     </div>
 </template>
@@ -155,14 +153,14 @@ h1 {
 
     button {
         padding: 5px 10px;
-        background-color: #4CAF50;
-        color: white;
+        background-color: var(--color-2);
+        color: var(--color-3);
         border: none;
         cursor: pointer;
         border-radius: 4px;
 
         &:hover {
-            background-color: #45a049;
+            background-color: var(--color-1);
         }
     }
 }
