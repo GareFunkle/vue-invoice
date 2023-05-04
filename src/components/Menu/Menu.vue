@@ -3,7 +3,7 @@
         <div class="menu">
             <ul class="menu__items">
 
-                <li class="menu__item"><router-link class="menu__item-btn" to="/">Mes factures</router-link></li>
+                <li class="menu__item"><router-link class="menu__item-btn" to="/">Home</router-link></li>
                 <li class="menu__item"><router-link class="menu__item-btn" to="/add-estimate">Creer un devis</router-link>
                 </li>
 

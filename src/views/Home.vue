@@ -1,15 +1,18 @@
 <template>
     <main>
-        <div class="estimate__home">
-            <h1>Devis</h1>
-            <div class="invoices__wrap">
-                <EstimateCard v-for="(estimate, index) in estimates" :key="index" :estimates="estimate" />
+        <div class="wrap">
+
+            <div class="estimate__home">
+                <h1 class="estimate__home-title">Devis</h1>
+                <div class="estimates__wrap">
+                    <EstimateCard v-for="(estimate, index) in estimates" :key="index" :estimates="estimate" />
+                </div>
             </div>
-        </div>
-        <div class="invoice__home">
-            <h1>Factures</h1>
-            <div class="invoices__wrap">
-                <InvoicesCard v-for="(invoice, index) in invoices" :key="index" :invoices="invoice" />
+            <div class="invoice__home">
+                <h1 class="invoice__home-title">Factures</h1>
+                <div class="invoices__wrap">
+                    <InvoicesCard v-for="(invoice, index) in invoices" :key="index" :invoices="invoice" />
+                </div>
             </div>
         </div>
     </main>
@@ -76,10 +79,32 @@ export default {
 </script>
 
 <style lang="scss">
-.invoices__wrap {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+.wrap {
+    display: flex;
+    // align-items: center;
+    justify-content: space-around;
+
+
+    .estimate__home,
+    .invoice__home {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .estimate__home-title,
+        .invoice__home-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: var(--color-4);
+            border-radius: calc(5rem / 2);
+            color: var(--color-3);
+            margin-bottom: 1rem;
+        }
+    }
+
+
+
 }
 </style>

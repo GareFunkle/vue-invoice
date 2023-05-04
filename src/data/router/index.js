@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../../views/Home.vue";
 import AddEstimate from "../../views/AddEstimate.vue";
+import LookEstimate from "../../components/Screen/LookEstimate.vue";
+import EditEstimate from "../../components/Edit/EditEstimate.vue";
 import AddInvoices from "../../views/AddInvoices.vue";
-import EditInvoice from "../../components/Edit/EditInvoice.vue";
 import LookInvoice from "../../components/Screen/LookInvoice.vue";
+import EditInvoice from "../../components/Edit/EditInvoice.vue";
 
 const routes = [
   {
@@ -12,9 +14,24 @@ const routes = [
     component: Home,
   },
   {
-    path: "/invoices/:invoiceId/edit",
-    name: "EditInvoice",
-    component: EditInvoice,
+    path: "/add-estimate",
+    name: "AddEstimate",
+    component: AddEstimate,
+  },
+  {
+    path: "/estimate/:estimateId/voir",
+    name: "LookEstimate",
+    component: LookEstimate,
+  },
+  {
+    path: "/estimate/:estimateId/edit",
+    name: "EditEstimate",
+    component: EditEstimate,
+  },
+  {
+    path: "/add-invoices",
+    name: "AddInvoices",
+    component: AddInvoices,
   },
   {
     path: "/invoices/:invoiceId/voir",
@@ -22,14 +39,9 @@ const routes = [
     component: LookInvoice,
   },
   {
-    path: "/add-estimate",
-    name: "AddEstimate",
-    component: AddEstimate,
-  },
-  {
-    path: "/add-invoices",
-    name: "AddInvoices",
-    component: AddInvoices,
+    path: "/invoices/:invoiceId/edit",
+    name: "EditInvoice",
+    component: EditInvoice,
   },
 ];
 

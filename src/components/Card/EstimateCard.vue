@@ -7,20 +7,21 @@
             <p class="estimate__date margin">{{ estimates.dueDate }}</p>
             <p class="estimate__number margin">{{ estimates.EstimateNumber }}</p>
             <p class="estimate__status margin" :class="{
-                'status-paid': estimates.status === 'Payée',
+                'status-paid': estimates.status === 'Devis accepté',
                 'status-pending': estimates.status === 'En attente'
             }">{{ estimates.status }}</p>
-            <p class="invoice__amount margin">{{ estimates.totalAmount }} €</p>
-            <div class="invoice__btn-wrap">
-                <!-- <router-link class="invoice__card-btn btn" :to="`/estimate/${estimates.id}/voir`">
+            <p class="estimate__amount margin">{{ estimates.totalAmount }} €</p>
+            <div class="estimate__btn-wrap">
+                <router-link class="estimate__card-btn btn" :to="`/estimate/${estimates.id}/voir`">
                     <CustomBtn text="Voir" />
-                </router-link> -->
-                <!-- <router-link class="invoice__card-btn btn" :to="`/estimate/${estimates.id}/edit`">
+                </router-link>
+                <router-link class="estimate__card-btn btn" :to="`/estimate/${estimates.id}/edit`">
                     <CustomBtn text="Éditer" />
-                </router-link> -->
+                </router-link>
                 <CustomBtn text="Supprimer" type="delete" @click="openModal = !openModal" />
             </div>
         </div>
+
 
         <div v-if="openModal" class="modal__wrap">
 
@@ -57,7 +58,7 @@ export default {
         const openModal = ref(false)
 
         const deleteEstimate = async () => {
-            await deleteDoc(doc(db, "invoices", props.estimates.id))
+            await deleteDoc(doc(db, "estimates", props.estimates.id))
             console.log("produits supprimer avec succes")
             openModal.value = false
         }

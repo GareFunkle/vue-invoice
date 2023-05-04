@@ -1,7 +1,7 @@
 <template>
-    <div class="estimate__form-wrap">
-        <h2 class="estimate__from-title">Nouveau Devis</h2>
-        <form @submit.prevent="submitEstimate">
+    <div class="edit__estimate">
+        <h1>Éditer la facture : {{ estimate.titleEstimate }} pour {{ estimate.clientName }}</h1>
+        <form id="estimate-content" @submit.prevent="updateEstimate">
             <div class="estimate__header-wrap">
 
                 <div class="header__wrap-text">
@@ -12,7 +12,6 @@
                 </div>
 
                 <div class="estimate__header">
-
 
                     <div class="header__text">
                         <label for="clientName">Nom du client :</label>
@@ -26,7 +25,6 @@
                         <label for="clientPostal">Code Postal :</label>
                         <input type="text" id="clientPostal" v-model="estimate.clientPostal" required />
                     </div>
-
                     <div class="header__text">
                         <label for="clientCity">Ville :</label>
                         <input type="text" id="clientCity" v-model="estimate.clientCity" required />
@@ -39,161 +37,135 @@
             </div>
             <div class="estimate__description">
                 <div>
-
-                    <label for="titleEstimate">Descriptions du devis :</label>
+                    <label for="titleEstimate">Descriptions De la facture :</label>
                     <input type="text" id="titleEstimate" v-model="estimate.titleEstimate" required />
                 </div>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Description</th>
+                        <th>Nom de l'article</th>
                         <th>Quantité</th>
-                        <th>Montant</th>
-                        <th>Action</th>
+                        <th>Prix unitaire</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in estimate.items" :key="index">
+                    <tr v-for="( item, index ) in  estimate.items " :key="index">
                         <td>
-                            <input type="text" :id="'description-' + index" v-model="item.description" required />
+                            <input v-model="item.description" />
                         </td>
                         <td>
-                            <input type="number" :id="'quantity-' + index" v-model="item.quantity" required>
+                            <input type="number" v-model.number="item.quantity" />
                         </td>
                         <td>
-                            <input type="number" :id="'amount-' + index" v-model="item.amount" step="0.01" required />
+                            <input type="number" step="0.01" v-model.number="item.amount" />
                         </td>
                         <td>
-                            <button type="button" @click="removeItem(index)" v-if="index > 0">
-                                Supprimer
-                            </button>
+                            <button type="button" @click="removeItem(index)">Supprimer l'article</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <button type="button" @click="addItem">Ajouter un article</button>
-            <div class="estimate__total">
+
+            <div class="invoice__total">
                 <h3>Total:</h3>
                 <p>{{ totalAmount }} € </p>
             </div>
-            <div class="estimate__due">
 
-                <div>
-                    <label for="dueDate">Date d'échéance :</label>
-                    <input type="date" id="dueDate" v-model="estimate.dueDate" required />
-                </div>
-            </div>
+            <button type="button" @click="addItem()">Ajouter un article</button>
+
             <div class="estimate__status">
-
-                <div>
-                    <label for="status">Statut :</label>
-                    <select id="status" v-model="estimate.status">
-                        <option value="En attente">En attente</option>
-                        <option value="Devis accepté">Devis accepté</option>
-                    </select>
-                </div>
+                <label for="status">Statut :</label>
+                <select id="status" v-model="estimate.status">
+                    <option value="En attente">En attente</option>
+                    <option value="Devis accepté">Devis accepté</option>
+                </select>
             </div>
-            <button type="submit">Créer le devis</button>
+            <CustomBtn text="Mettre à jour" type="submit" />
         </form>
 
     </div>
 </template>
   
 <script>
-import { ref, reactive, computed } from "vue";
-import { useRouter } from "vue-router";
-import { db, collection } from "../../data/firebase/index";
-import { addDoc } from "firebase/firestore";
+import { ref, computed } from "vue";
+import { useRoute, useRouter } from 'vue-router';
+import { db } from "../../data/firebase/index";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import CustomBtn from "../Button/CustomBtn.vue";
+
 
 export default {
-    name: "EstimateForm",
+    name: "EditEstimate",
+    components: {
+        CustomBtn
+    },
     setup() {
+        const route = useRoute();
         const router = useRouter()
-
-        const estimate = reactive({
-            clientName: "",
-            clientAdress: "",
-            clientPostal: "",
-            clientCity: "",
-            clientCountry: "",
-            titleEstimate: "",
-            dueDate: "",
-            items: [
-                {
-                    description: "",
-                    quantity: 1,
-                    amount: 0,
-                },
-            ],
-            status: "En attente",
+        const estimateId = computed(() => {
+            return route.params.estimateId;
         });
+        const estimate = ref({});
 
+        const fetchInvoice = async () => {
+            const estimateRef = doc(db, "estimates", estimateId.value);
+            const estimateSnap = await getDoc(estimateRef);
+
+            if (estimateSnap.exists()) {
+                estimate.value = estimateSnap.data();
+            } else {
+                console.log("Aucune facture trouvée avec cet ID.");
+            }
+        };
         const totalAmount = computed(() => {
-            return estimate.items.reduce((total, item) => total + (Number(item.amount) * Number(item.quantity)), 0);
+            if (estimate.value && estimate.value.items) {
+                return estimate.value.items.reduce((total, item) => total + (Number(item.amount) * Number(item.quantity)), 0);
+            } else {
+                return 0;
+            }
         });
+
+        const updateEstimate = async () => {
+            estimate.value.totalAmount = totalAmount.value; // Déplacez cette ligne ici
+            const estimateRef = doc(db, "estimates", estimateId.value);
+            await updateDoc(estimateRef, estimate.value);
+            router.push("/")
+            console.log("Facture mise à jour !");
+
+        };
 
         const addItem = () => {
-            estimate.items.push({
-                description: "",
+            estimate.value.items.push({
+                name: "",
                 quantity: 1,
-                amount: 0,
+                price: 0
             });
         };
 
         const removeItem = (index) => {
-            estimate.items.splice(index, 1);
+            estimate.value.items.splice(index, 1);
         };
 
-        const submitEstimate = async () => {
-            try {
-                const estimateNumber = "Devis-" + Date.now();
 
-                estimate.estimateNumber = estimateNumber;
 
-                const calculatedTotalAmount = totalAmount.value;
-
-                estimate.totalAmount = calculatedTotalAmount;
-
-                const estimateCollection = collection(db, "estimates");
-                await addDoc(estimateCollection, estimate);
-                console.log("Facture ajoutée avec succès");
-            } catch (error) {
-                console.error("Erreur lors de l'ajout de la facture:", error);
-            }
-            resetForm();
-            router.push("/")
-        };
-
-        const resetForm = () => {
-            estimate.clientName = "";
-            estimate.dueDate = "";
-            estimate.clientAdress = "";
-            estimate.clientPostal = "";
-            estimate.clientCity = "";
-            estimate.clientCountry = "";
-            estimate.items = [
-                {
-                    description: "",
-                    quantity: 1,
-                    amount: 0,
-                },
-            ];
-        };
+        fetchInvoice();
 
         return {
+            estimateId,
             estimate,
+            updateEstimate,
             addItem,
             removeItem,
-            submitEstimate,
-            totalAmount,
+            totalAmount
         };
     },
 };
 </script>
-
+  
 <style lang="scss" scoped>
-.estimate__form-wrap {
+.edit__estimate {
     font-family: Arial, sans-serif;
     max-width: 800px;
     margin: 0 auto;
@@ -215,11 +187,11 @@ export default {
             display: flex;
             flex-direction: column;
 
-            .header__text {
-                padding: 0.5rem;
-            }
         }
 
+        .header__text {
+            padding: 0.5rem;
+        }
     }
 
     .estimate__description {
@@ -240,14 +212,6 @@ export default {
         h3 {
             margin-right: 0.3rem;
         }
-    }
-
-    .estimate__due {
-        display: flex;
-        align-items: start;
-        flex-direction: column;
-        justify-content: center;
-        margin-top: 1rem;
     }
 
     .estimate__status {
@@ -312,25 +276,20 @@ th {
 
 button {
     padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--color-2);
+    color: var(--color-3);
     border: none;
     cursor: pointer;
     border-radius: 4px;
+
+    &:hover {
+        background-color: var(--color-1);
+    }
 }
 
-button:hover {
-    background-color: #45a049;
-}
 
-button[type="submit"] {
-    background-color: #007BFF;
-    margin-top: 20px;
-}
 
-button[type="submit"]:hover {
-    background-color: #0069D9;
-}
+
 
 table {
     width: 100%;
@@ -355,3 +314,4 @@ table th {
     padding-bottom: 12px;
 }
 </style>
+  
