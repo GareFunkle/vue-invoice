@@ -59,13 +59,17 @@
         </div>
 
         <div class="invoice__text">
-            Mode de paiement : chèque ou virement bancaire n° FR76 1679 8000 0100 0024 3347 804
+            <p>Mode de paiement : chèque ou virement bancaire n° FR76 1679 8000 0100 0024 3347 804</p>
 
         </div>
 
 
         <div class="invoice__text">
-            TVA non applicable, art. 293 B du CGI
+            <p>TVA non applicable, art. 293 B du CGI</p>
+        </div>
+
+        <div class="invoice__siret">
+            <p>SIRET : 882 725 633 00011 - NAF : 4321A</p>
         </div>
 
 
@@ -239,19 +243,28 @@ h1 {
         align-items: center;
         flex-direction: row;
         justify-content: end;
+        margin-bottom: 1rem;
 
         h3 {
             margin-right: 0.3rem;
         }
     }
 
-    .invoice__status {
-        display: flex;
-        align-items: start;
-        flex-direction: column;
-        justify-content: center;
-        margin-top: 1rem;
+    .invoice__text {
+        margin-bottom: 1.5rem;
     }
+
+    .invoice__siret {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
 
 }
 </style>

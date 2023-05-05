@@ -59,7 +59,7 @@
         </div>
 
         <div class="estimate__text">
-            Ce devis est valable pour une duree de 1 mois
+            Ce devis est valable pour une duree de 3 mois
 
         </div>
 

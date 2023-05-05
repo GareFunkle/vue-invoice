@@ -1,13 +1,6 @@
 <template>
   <main>
     <div class="wrap">
-
-      <div class="estimate__home">
-        <h1 class="estimate__home-title">Devis</h1>
-        <div class="estimates__wrap">
-          <EstimateCard v-for="(estimate, index) in estimates" :key="index" :estimates="estimate" />
-        </div>
-      </div>
       <div class="invoice__home">
         <h1 class="invoice__home-title">Factures</h1>
         <div class="invoices__wrap">
@@ -21,38 +14,24 @@
 <script>
 import { onMounted, onUnmounted, ref } from "vue";
 import { db } from '../data/firebase/index'
-import { onSnapshot, query, collection } from "firebase/firestore";
-import EstimateCard from "../components/Card/EstimateCard.vue";
+import { query, collection, onSnapshot, where, } from "firebase/firestore";
 import InvoicesCard from '../components/Card/InvoicesCard.vue';
+
 export default {
-  name: "Home",
+  name: "IsWaiting",
   components: {
-    EstimateCard,
     InvoicesCard
   },
   setup() {
-    const estimates = ref([])
+
     const invoices = ref([]);
 
 
-    const makeDataEstimates = async () => {
-      const estimateCollection = collection(db, "estimates")
-      const q = query(estimateCollection)
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        estimates.value = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-      });
-
-      onUnmounted(() => {
-        unsubscribe();
-      });
-    }
 
     const makeDataInvoices = async () => {
       const invoiceCollection = collection(db, "invoices");
-      const q = query(invoiceCollection);
+      const invoicesStatus = where("status", "==", "En attente")
+      const q = query(invoiceCollection, invoicesStatus);
 
       const unsubscribe = onSnapshot(q, (snapshot) => {
         invoices.value = snapshot.docs.map((doc) => ({
@@ -66,11 +45,9 @@ export default {
       });
     }
 
-    onMounted(makeDataEstimates)
     onMounted(makeDataInvoices);
 
     return {
-      estimates,
       invoices
     };
 
@@ -78,7 +55,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .wrap {
   display: flex;
   justify-content: space-around;

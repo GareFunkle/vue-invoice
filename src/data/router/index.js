@@ -6,6 +6,7 @@ import EditEstimate from "../../components/Edit/EditEstimate.vue";
 import AddInvoices from "../../views/AddInvoices.vue";
 import LookInvoice from "../../components/Screen/LookInvoice.vue";
 import EditInvoice from "../../components/Edit/EditInvoice.vue";
+import IsWaiting from "../../views/IsWaiting.vue";
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: "/invoices/:invoiceId/edit",
     name: "EditInvoice",
     component: EditInvoice,
+  },
+  {
+    path: "/is-waiting",
+    name: "IsWaiting",
+    component: IsWaiting,
   },
 ];
 
